@@ -5,7 +5,7 @@
     </div>
     <div class="section">
 
-      <note-form v-on:addingMessage="addMessage"></note-form>
+      <note-form v-on:addingNote="addNote"></note-form>
 
     </div>
     <div class="section">
@@ -14,7 +14,7 @@
         <span class="notes-count">Всего заметок: {{ count }}</span>
       </div>
 
-      <note-card v-for="(note, idx) of notes" :key="idx" :note="note" :idx="idx"></note-card>
+      <note-card v-on:removingNote="removeNote" v-for="(note, idx) of notes" :key="idx" :note="note" :idx="idx"></note-card>
 
     </div>
   </div>
@@ -42,12 +42,13 @@
     },
 
     methods: {
-      addMessage(detail) {
-        this.notes.push({ text: detail, isEditing: false })
+      addNote(detail) {
+        const createdNote = { text: detail, isEditing: false }
+        this.notes.push(createdNote)
       },
 
-      removeMessage(idx) {
-        this.notes.splice(idx, 1)
+      removeNote(detail) {
+        this.notes.splice(detail, 1)
       },
     },
   }

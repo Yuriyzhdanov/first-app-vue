@@ -2,27 +2,30 @@
   <div class="note-form">
     <textarea
       ref="mainTextarea"
-      v-model.trim="message"
+      v-model.trim="noteText"
       id="note-content"
       rows="4"
       placeholder="Введите вашу заметку..."
     ></textarea>
-    <button v-on:click="$emit('addingMessage', message), this.message = ''" id="add-note">Добавить заметку</button>
+    <button v-on:click="handleClickButton" id="add-note">Добавить заметку</button>
   </div>
 </template>
 
 <script>
   export default {
-    emits: ['addingMessage'],
+    emits: ['addingNote'],
 
     data() {
       return {
-        message: ''
+        noteText: ''
       }
     },
 
     methods: {
-
+      handleClickButton() {
+        this.$emit('addingNote', this.noteText)
+        this.noteText = ''
+      }
     }
   }
 </script>

@@ -12,7 +12,7 @@
             <p v-else v-on:dblclick="editMessage(idx)">{{ note.text }}</p>
             </div>
             <div class="note-actions">
-            <button v-on:click="removeMessage(idx)">Удалить</button>
+            <button v-on:click="handleClickButtonRemove(idx)">Удалить</button>
         </div>
     </div>
 </template>
@@ -20,17 +20,22 @@
 <script>
     export default {
         props: ['note', 'idx'],
+        emits: ['removingNote'],
         methods: {
-            editMessage(idx) {
-                this.notes[idx].isEditing = true
-                this.$nextTick(() => {
-                this.$refs.editingTextarea[0].focus()
-                })
-            },
+            handleClickButtonRemove(idx) {
+                this.$emit('removingNote', idx)
+            }
 
-            saveMessage(idx) {
-                this.notes[idx].isEditing = false
-            },
+            // editMessage(idx) {
+            //     this.notes[idx].isEditing = true
+            //     this.$nextTick(() => {
+            //     this.$refs.editingTextarea[0].focus()
+            //     })
+            // },
+
+            // saveMessage(idx) {
+            //     this.notes[idx].isEditing = false
+            // },
         }
     }
 </script>
