@@ -4,16 +4,9 @@
       <h1>Приложение для заметок</h1>
     </div>
     <div class="section">
-      <div class="note-form">
-        <textarea
-          ref="mainTextarea"
-          v-model.trim="message"
-          id="note-content"
-          rows="4"
-          placeholder="Введите вашу заметку..."
-        ></textarea>
-        <button v-on:click="addMessage" id="add-note">Добавить заметку</button>
-      </div>
+
+      <note-form v-on:addingMessage="addMessage"></note-form>
+
     </div>
     <div class="section">
       <div class="notes-header">
@@ -21,33 +14,20 @@
         <span class="notes-count">Всего заметок: {{ count }}</span>
       </div>
 
-      <div class="notes" id="notes-container">
-        <div v-for="(note, idx) of notes" :key="idx" class="note-card">
-          <div class="note-content">
-            <textarea
-              ref="editingTextarea"
-              v-if="note.isEditing"
-              v-model="note.text"
-              v-on:blur="saveMessage(idx)"
-              v-on:keyup.enter="saveMessage(idx)"
-              type="text"
-            ></textarea>
-            <p v-else v-on:dblclick="editMessage(idx)">{{ note.text }}</p>
-          </div>
-          <div class="note-actions">
-            <button v-on:click="removeMessage(idx)">Удалить</button>
-          </div>
-        </div>
-      </div>
+      <note-card v-for="(note, idx) of notes" :key="idx" :note="note" :idx="idx"></note-card>
+
     </div>
   </div>
 </template>
 
 <script>
+  import NoteCard from './components/note-card.vue';
+  import NoteForm from './components/note-form.vue'
+
   export default {
     name: 'App',
 
-    components: {},
+    components: {NoteCard, NoteForm},
 
     computed: {
       count() {
@@ -57,30 +37,17 @@
 
     data() {
       return {
-        message: '',
         notes: [],
       }
     },
 
     methods: {
-      addMessage() {
-        this.notes.push({ text: this.message, isEditing: false })
-        this.message = ''
+      addMessage(detail) {
+        this.notes.push({ text: detail, isEditing: false })
       },
 
       removeMessage(idx) {
         this.notes.splice(idx, 1)
-      },
-
-      editMessage(idx) {
-        this.notes[idx].isEditing = true
-        this.$nextTick(() => {
-          this.$refs.editingTextarea[0].focus()
-        })
-      },
-
-      saveMessage(idx) {
-        this.notes[idx].isEditing = false
       },
     },
   }
