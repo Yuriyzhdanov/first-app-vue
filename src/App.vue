@@ -4,9 +4,7 @@
       <h1>Приложение для заметок</h1>
     </div>
     <div class="section">
-
       <note-form v-on:addingNote="addNote"></note-form>
-
     </div>
     <div class="section">
       <div class="notes-header">
@@ -14,20 +12,26 @@
         <span class="notes-count">Всего заметок: {{ count }}</span>
       </div>
 
-      <note-card v-on:removingNote="removeNote" v-for="(note, idx) of notes" :key="idx" :note="note" :idx="idx"></note-card>
-
+      <note-card
+        v-on:removingNote="removeNote"
+        v-on:savingNoteText="saveNoteText"
+        v-for="(note, idx) of notes"
+        :key="idx"
+        :note="note"
+        :idx="idx"
+      ></note-card>
     </div>
   </div>
 </template>
 
 <script>
-  import NoteCard from './components/note-card.vue';
+  import NoteCard from './components/note-card.vue'
   import NoteForm from './components/note-form.vue'
 
   export default {
     name: 'App',
 
-    components: {NoteCard, NoteForm},
+    components: { NoteCard, NoteForm },
 
     computed: {
       count() {
@@ -46,9 +50,12 @@
         const createdNote = { text: detail, isEditing: false }
         this.notes.push(createdNote)
       },
-
-      removeNote(detail) {
-        this.notes.splice(detail, 1)
+      saveNote({ idx, text }) {
+        this.notes[idx].text = text
+        this.notes[idx].isEditing = false
+      },
+      removeNote(idx) {
+        this.notes.splice(idx, 1)
       },
     },
   }
