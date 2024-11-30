@@ -6,9 +6,8 @@
         v-model="note.text"
         v-on:blur="note.isEditing = false"
         ref="elTextarea"
-
       ></textarea>
-      <p v-else v-on:dblclick="editNoteText">{{ note.text }}</p>
+      <p v-else v-on:dblclick="handleDblClickP">{{ note.text }}</p>
     </div>
     <div class="note-actions">
       <button v-on:click="handleClickButtonRemove(idx)">Удалить</button>
@@ -26,10 +25,9 @@
         this.$emit('removingNote', idx)
       },
 
-      editNoteText(idx) {
+      handleDblClickP() {
         this.note.isEditing = true
         this.$nextTick(() => {
-          console.log(this.$refs.elTextarea)
           this.$refs.elTextarea.focus()
         })
       },

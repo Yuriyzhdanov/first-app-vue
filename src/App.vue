@@ -14,24 +14,28 @@
 
       <note-card
         v-on:removingNote="removeNote"
-        v-on:savingNoteText="saveNoteText"
         v-for="(note, idx) of notes"
         :key="idx"
         :note="note"
         :idx="idx"
       ></note-card>
     </div>
+
+    <block-footer>
+      <span>foobar</span>
+    </block-footer>
   </div>
 </template>
 
 <script>
   import NoteCard from './components/note-card.vue'
   import NoteForm from './components/note-form.vue'
+  import blockFooter from './components/block-footer.vue'
 
   export default {
     name: 'App',
 
-    components: { NoteCard, NoteForm },
+    components: { NoteCard, NoteForm, blockFooter },
 
     computed: {
       count() {
@@ -49,10 +53,6 @@
       addNote(detail) {
         const createdNote = { text: detail, isEditing: false }
         this.notes.push(createdNote)
-      },
-      saveNote({ idx, text }) {
-        this.notes[idx].text = text
-        this.notes[idx].isEditing = false
       },
       removeNote(idx) {
         this.notes.splice(idx, 1)
